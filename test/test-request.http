@@ -1,0 +1,37 @@
+# Test http requests for my api
+
+### GET server root
+GET http://localhost:3000/
+
+### POST server root
+POST http://localhost:3000/
+
+### POST server root
+PUT http://localhost:3000/
+
+### Get not found 404
+GET http://localhost:3000/notfound
+
+### GET all items
+GET http://localhost:3000/items
+
+### GET an item by id
+GET http://localhost:3000/items/2
+
+### GET false item by id
+GET http://localhost:3000/items/999
+
+### POST new item
+POST http://localhost:3000/items
+content-type: application/json
+
+{"name": "uusi postattu itemi"}
+
+### DELETE item by id / TODO!!!
+DELETE http://localhost:3000/items/2
+
+### Modify existing item by id
+PUT http://localhost:3000/items/1
+content-type: application/json
+
+{"name": "muokattu itemi"}

@@ -2,7 +2,7 @@ import http from 'http';
 const hostname = '127.0.0.1';
 const port = 3000;
 
-// dummy mock data
+// mock data
 const items = [
   {id: 1, name: 'Item 1'},
   {id: 2, name: 'Item 2'},
@@ -39,6 +39,7 @@ const server = http.createServer((req, res) => {
       res.write(JSON.stringify(items));
     }
     res.end();
+    // POST /items
   } else if (req.method === 'POST' && resource === 'items') {
     let data = '';
     req.on('data', (chunk) => {
@@ -46,8 +47,29 @@ const server = http.createServer((req, res) => {
     });
     req.on('end', () => {
       console.log('POST data:', data);
-      res.end('Data received');
+
+      // Create new object based on posted json data
+      const newItem = JSON.parse(data);
+      newItem.id = items[items.length - 1].id + 1;
+      items.push(newItem);
+      res.writeHead(201, {'Content-Type': 'application/json'});
+      res.end('{"message": "Data received"}');
     });
+
+    // DELETE items by id
+  } else if (req.method === 'DELETE' && resource === 'items') {
+    if (!id) {
+      notFound(res);
+      return;
+    }
+    const index = items.findIndex((item) => id == item.id);
+    if (index === -1) {
+      notFound(res);
+      return;
+    }
+    items.splice(index, 1); // Remove item from array
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(`{"message": "Item ${id} deleted"}`);
 
     // Default 404 error responsse
   } else {

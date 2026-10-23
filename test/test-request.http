@@ -12,7 +12,7 @@ PUT http://localhost:3000/
 ### Get not found 404
 GET http://localhost:3000/notfound
 
-### GET all items
+### GET ALL items
 GET http://localhost:3000/items
 
 ### GET an item by id
@@ -27,8 +27,8 @@ content-type: application/json
 
 {"name": "uusi postattu itemi"}
 
-### DELETE item by id / TODO!!!
-DELETE http://localhost:3000/items/2
+### DELETE item by id
+DELETE http://localhost:3000/items/9
 
 ### Modify existing item by id
 PUT http://localhost:3000/items/1

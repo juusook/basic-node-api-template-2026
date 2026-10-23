@@ -3,12 +3,6 @@
 ### GET server root
 GET http://localhost:3000/
 
-### POST server root
-POST http://localhost:3000/
-
-### POST server root
-PUT http://localhost:3000/
-
 ### Get not found 404
 GET http://localhost:3000/notfound
 
@@ -28,10 +22,10 @@ content-type: application/json
 {"name": "uusi postattu itemi"}
 
 ### DELETE item by id
-DELETE http://localhost:3000/items/9
+DELETE http://localhost:3000/items/8
 
-### Modify existing item by id
-PUT http://localhost:3000/items/1
+### PUT / Modify existing item by id
+PUT http://localhost:3000/items/2
 content-type: application/json
 
 {"name": "muokattu itemi"}

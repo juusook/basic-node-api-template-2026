@@ -1,4 +1,4 @@
-// index.js
+// index.js simple backend server using Node.js
 import http from 'http';
 const hostname = '127.0.0.1';
 const port = 3000;

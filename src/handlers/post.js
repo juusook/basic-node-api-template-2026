@@ -3,7 +3,7 @@
 import {items} from '../data.js';
 
 // Function to generate email based on name
-const generateEmail = (name) => {
+export const generateEmail = (name) => {
   if (!name) {
     return '';
   }

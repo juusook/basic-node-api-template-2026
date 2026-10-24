@@ -17,7 +17,7 @@ const server = http.createServer((req, res) => {
   // GET root
   if (req.url === '/') {
     res.writeHead(200, {'Content-Type': 'text/html'}); // Set response headers
-    res.end('<p>Tervetuloa esimerkkirajapintaan</p>'); // Send response with message
+    res.end('<h1 style="color: blue">Tervetuloa harjoitusrajapintaan</h1>'); // Send response with message
 
     // GET /items
   } else if (req.method === 'GET' && resource === 'items') {

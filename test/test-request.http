@@ -19,7 +19,7 @@ GET http://localhost:3000/items/999
 POST http://localhost:3000/items
 content-type: application/json
 
-{"name": "uusi postattu itemi"}
+{"name": "Bruce Wayne", "age": 42, "city": "Gotham City"}
 
 ### DELETE item by id
 DELETE http://localhost:3000/items/8
@@ -28,4 +28,4 @@ DELETE http://localhost:3000/items/8
 PUT http://localhost:3000/items/2
 content-type: application/json
 
-{"name": "muokattu itemi"}
+{"name": "Clark Kent", "age": 35, "city": "Metropolis"}

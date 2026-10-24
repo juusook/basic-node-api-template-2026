@@ -28,4 +28,4 @@ DELETE http://localhost:3000/items/8
 PUT http://localhost:3000/items/2
 content-type: application/json
 
-{"name": "Clark Kent", "age": 35, "city": "Metropolis"}
+{"name": "Peter Parker", "age": 22, "city": "New York City"}

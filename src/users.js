@@ -40,4 +40,9 @@ const getUserById = (id) => {
   return user;
 };
 
-export {getAllUsers, getUserById};
+const addUser = (item) => {
+  item.user_id = users[0].user_id + 1;
+  users.unshift(item);
+};
+
+export {getAllUsers, getUserById, addUser};

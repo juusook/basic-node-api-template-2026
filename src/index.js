@@ -6,7 +6,7 @@ import {
   getMediaItemById,
   modifyMediaItem,
 } from './media.js';
-import {getAllUsers, getUserById} from './users.js';
+import {getAllUsers, getUserById, addUser} from './users.js';
 import path from 'path';
 
 const hostname = '127.0.0.1';
@@ -85,6 +85,7 @@ app.delete('/api/media/:id', (req, res) => {
 // user resource endpoints
 // TODO: ADD
 
+// Get querys
 app.get('/api/user', (req, res) => {
   const items = getAllUsers(req.query.limit);
   res.json(items);
@@ -98,6 +99,16 @@ app.get('/api/user/:id', (req, res) => {
   res.json(user);
 });
 
+// Post query
+app.post('/api/user', (req, res) => {
+  if (!req.body.user_name) {
+    return res.status(400).json({error: 400, message: 'Something missing!'});
+  }
+  addUser(req.body);
+  res.status(201).json({message: 'New user added.'});
+});
+
+// Start the server
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });

@@ -75,3 +75,15 @@ GET {{apiUrl}}/user
 
 ### GET user by id
 GET {{apiUrl}}/user/305
+
+### Add new media item
+POST {{apiUrl}}/user
+content-type: application/json
+
+{
+  "user_name": "Uusi käyttäjä",
+  "password": "salasana123",
+  "email": "uusi.kayttaja@email.com",
+  "user_level_id": "1",
+  "created_at": "2024-06-01T12:00:00Z"
+}

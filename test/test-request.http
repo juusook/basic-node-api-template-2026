@@ -1,31 +1,70 @@
 # Test http requests for my api
+@apiUrl = http://localhost:3000/api
 
-### GET server root
+
+### Get server root
 GET http://localhost:3000/
 
+### Get api root
+GET http://localhost:3000/api
+
 ### Get not found 404
-GET http://localhost:3000/notfound
+GET http://localhost:3000/something-not-found
 
-### GET ALL items
-GET http://localhost:3000/items
+### Post server root
+POST http://localhost:3000/
 
-### GET an item by id
-GET http://localhost:3000/items/2
+##################
+## /media requests
+##################
 
-### GET false item by id
-GET http://localhost:3000/items/999
+### GET all media items
+GET {{apiUrl}}/media
 
-### POST new item
-POST http://localhost:3000/items
+### GET 3 latest media items
+GET {{apiUrl}}/media?limit=2
+
+### GET media item by id
+GET {{apiUrl}}/media/9626
+
+### GET media item by id (Not found)
+GET {{apiUrl}}/media/0
+
+### Add new media item
+POST {{apiUrl}}/media
 content-type: application/json
 
-{"name": "Bruce Wayne", "age": 42, "city": "Gotham City"}
+{
+  "filename": "60ac.jpg",
+  "title": "New image",
+  "description": "The description of the new image",
+  "user_id": 305,
+  "media_type": "image/jpeg"
+}
 
-### DELETE item by id
-DELETE http://localhost:3000/items/8
-
-### PUT / Modify existing item by id
-PUT http://localhost:3000/items/2
+### Add new media item (Bad request, title missing)
+POST {{apiUrl}}/media
 content-type: application/json
 
-{"name": "Peter Parker", "age": 22, "city": "New York City"}
+{
+  "filename": "60ac.jpg",
+  "description": "The description of the new image",
+  "user_id": 305,
+  "media_type": "image/jpeg"
+}
+
+### Modify existing media item 
+PUT {{apiUrl}}/media/9632
+content-type: application/json
+
+{
+  "description": "updated desc",
+  "title": "Uus title"
+}
+
+### Delete media item 
+DELETE {{apiUrl}}/media/9625
+
+## /users requests
+
+// TODO: ADD!

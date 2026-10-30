@@ -8,6 +8,7 @@ export const putHandler = (req, res, id) => {
     notFound(res);
     return;
   }
+
   let data = '';
 
   req.on('data', (chunk) => {

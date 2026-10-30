@@ -18,6 +18,7 @@ export const generateEmail = (name) => {
   return `${nameParts[0]}@gmail.com`;
 };
 
+// POST request handler
 export const postHandler = (request, response) => {
   let data = '';
 

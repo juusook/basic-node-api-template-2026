@@ -24,9 +24,14 @@ const users = [
     created_at: '2023-04-02T05:56:41.000Z',
   },
 ];
-
+// Time stamp for created_at when adding new user
 const now = new Date().toISOString();
 
+/**
+ * Get all users, optionally limited by a number.
+ * @param {number} limit - The maximum number of users to return.
+ * @returns {Array} - An array of user objects.
+ */
 const getAllUsers = (limit) => {
   if (limit) {
     return users.slice(0, limit);
@@ -34,6 +39,11 @@ const getAllUsers = (limit) => {
   return users;
 };
 
+/**
+ * Get a user by their ID.
+ * @param {number} id - The ID of the user to retrieve.
+ * @returns {Object|undefined} - The user object if found, otherwise undefined.
+ */
 const getUserById = (id) => {
   const user = users.find((item) => id == item.user_id);
   if (!user) {
@@ -42,12 +52,22 @@ const getUserById = (id) => {
   return user;
 };
 
+/**
+ * Add a new user.
+ * @param {Object} item - The user object to add.
+ */
 const addUser = (item) => {
   item.user_id = users[0].user_id + 1;
   item.created_at = now;
   users.unshift(item);
 };
 
+/**
+ * Modify an existing user.
+ * @param {number} id - The ID of the user to modify.
+ * @param {Object} modifiedUser - The updated user object.
+ * @returns {Object|boolean} - The modified user object if successful, otherwise false.
+ */
 const modifyUser = (id, modifiedUser) => {
   const userIndex = users.findIndex((item) => id == item.user_id);
   if (userIndex > -1) {
@@ -57,6 +77,11 @@ const modifyUser = (id, modifiedUser) => {
   return false;
 };
 
+/**
+ * Delete a user by their ID.
+ * @param {number} id - The ID of the user to delete.
+ * @returns {boolean} - True if the user was deleted, otherwise false.
+ */
 const deleteUser = (id) => {
   const userIndex = users.findIndex((item) => id == item.user_id);
   if (userIndex > -1) {

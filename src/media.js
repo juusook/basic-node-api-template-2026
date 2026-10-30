@@ -2,7 +2,7 @@
 const mediaItems = [
   {
     media_id: 9632,
-    filename: 'ffd8.jpg',
+    filename: 'ffd8.png',
     filesize: 887574,
     title: 'Favorite drink',
     description: '',
@@ -12,7 +12,7 @@ const mediaItems = [
   },
   {
     media_id: 9626,
-    filename: 'dbbd.jpg',
+    filename: 'dbbd.png',
     filesize: 60703,
     title: 'Miika',
     description: 'My Photo',
@@ -22,7 +22,7 @@ const mediaItems = [
   },
   {
     media_id: 9625,
-    filename: '2f9b.jpg',
+    filename: '2f9b.png',
     filesize: 30635,
     title: 'Aksux',
     description: 'friends',
@@ -32,7 +32,7 @@ const mediaItems = [
   },
   {
     media_id: 9592,
-    filename: 'f504.jpg',
+    filename: 'f504.png',
     filesize: 48975,
     title: 'Desert',
     description: '',
@@ -42,7 +42,7 @@ const mediaItems = [
   },
   {
     media_id: 9590,
-    filename: '60ac.jpg',
+    filename: '60ac.png',
     filesize: 23829,
     title: 'Basement',
     description: 'Light setup in basement',

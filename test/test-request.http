@@ -68,3 +68,6 @@ DELETE {{apiUrl}}/media/9625
 ## /users requests
 
 // TODO: ADD!
+
+### GET image file by media id
+GET {{apiUrl}}/media/file/9632

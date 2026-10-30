@@ -9,6 +9,7 @@ import {
 const hostname = '127.0.0.1';
 const app = express();
 const port = 3000;
+import path from 'path';
 
 app.set('view engine', 'pug');
 app.set('views', 'src/views');
@@ -17,6 +18,9 @@ app.use(express.json());
 
 // public-kansion kaikki sisältö tarjoillaan palvelimen juuri-urlissa
 app.use('/', express.static('public'));
+
+// media-kansion kuvat tarjoillaan /media-urlissa
+app.use('/media', express.static('media'));
 
 // API "docs" using pug template engine
 app.get('/api', (req, res) => {
@@ -36,6 +40,16 @@ app.get('/api/media/:id', (req, res) => {
   const mediaItem = getMediaItemById(req.params.id);
   if (mediaItem) {
     res.json(mediaItem);
+  } else {
+    res.status(404).json({error: 404, message: 'Not found'});
+  }
+});
+
+// Get media image by id
+app.get('/api/media/file/:id/', (req, res) => {
+  const mediaItem = getMediaItemById(req.params.id);
+  if (mediaItem) {
+    res.sendFile(path.resolve(`media/${mediaItem.filename}`));
   } else {
     res.status(404).json({error: 404, message: 'Not found'});
   }

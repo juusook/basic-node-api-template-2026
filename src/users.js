@@ -25,6 +25,8 @@ const users = [
   },
 ];
 
+const now = new Date().toISOString();
+
 const getAllUsers = (limit) => {
   if (limit) {
     return users.slice(0, limit);
@@ -42,7 +44,26 @@ const getUserById = (id) => {
 
 const addUser = (item) => {
   item.user_id = users[0].user_id + 1;
+  item.created_at = now;
   users.unshift(item);
 };
 
-export {getAllUsers, getUserById, addUser};
+const modifyUser = (id, modifiedUser) => {
+  const userIndex = users.findIndex((item) => id == item.user_id);
+  if (userIndex > -1) {
+    users[userIndex] = {...users[userIndex], ...modifiedUser};
+    return users[userIndex];
+  }
+  return false;
+};
+
+const deleteUser = (id) => {
+  const userIndex = users.findIndex((item) => id == item.user_id);
+  if (userIndex > -1) {
+    users.splice(userIndex, 1);
+    return true;
+  }
+  return false;
+};
+
+export {getAllUsers, getUserById, addUser, modifyUser, deleteUser};

@@ -6,7 +6,13 @@ import {
   getMediaItemById,
   modifyMediaItem,
 } from './media.js';
-import {getAllUsers, getUserById, addUser} from './users.js';
+import {
+  getAllUsers,
+  getUserById,
+  addUser,
+  modifyUser,
+  deleteUser,
+} from './users.js';
 import path from 'path';
 
 const hostname = '127.0.0.1';
@@ -83,7 +89,6 @@ app.delete('/api/media/:id', (req, res) => {
 });
 
 // user resource endpoints
-// TODO: ADD
 
 // Get querys
 app.get('/api/user', (req, res) => {
@@ -106,6 +111,22 @@ app.post('/api/user', (req, res) => {
   }
   addUser(req.body);
   res.status(201).json({message: 'New user added.'});
+});
+
+app.put('/api/user/:id', (req, res) => {
+  const updatedUser = modifyUser(req.params.id, req.body);
+  if (!updatedUser) {
+    return res.status(404).json({error: 404, message: 'User not found!'});
+  }
+  res.json({message: 'User updated!', updatedUser});
+});
+
+app.delete('/api/user/:id', (req, res) => {
+  const success = deleteUser(req.params.id);
+  if (!success) {
+    return res.status(404).json({error: 404, message: 'User not found!'});
+  }
+  res.json({message: 'User deleted!'});
 });
 
 // Start the server

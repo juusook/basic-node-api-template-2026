@@ -52,24 +52,48 @@ const mediaItems = [
   },
 ];
 
+/** Gets all media items from mock data array
+ *
+ * @param {number} limit  - limit number of items returned
+ * @returns {mediaItem[]} - mediaItems object array
+ */
 const getAllMediaItems = (limit) => {
   if (limit) {
-    // TODO: fix
     return mediaItems.slice(0, limit);
   }
   return mediaItems;
 };
 
+/** Gets a media item by its ID
+ *
+ * @param {number} id - ID of the media item to retrieve
+ * @returns {mediaItem | undefined} - The media item if found, undefined otherwise
+ */
 const getMediaItemById = (id) => {
   const itemFound = mediaItems.find((item) => id == item.media_id);
+  if (!itemFound) {
+    return undefined;
+  }
   return itemFound;
 };
 
+/**
+ * Adds a new media item to the mock data array
+ *
+ * @param {mediaItem[]} item - The media item to add
+ */
 const addMediaItem = (item) => {
   item.media_id = mediaItems[0].media_id + 1;
   mediaItems.unshift(item);
 };
 
+/**
+ * Modifies a media item in the mock data array
+ *
+ * @param {number} id - The ID of the media item to modify
+ * @param {modifiedItem[]} modifiedItem - The modified media item
+ * @returns {mediaItem | false} - The modified media item if successful, false otherwise
+ */
 const modifyMediaItem = (id, modifiedItem) => {
   const itemIndex = mediaItems.findIndex((item) => id == item.media_id);
   if (itemIndex > -1) {

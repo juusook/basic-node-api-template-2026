@@ -25,4 +25,19 @@ const users = [
   },
 ];
 
-export {users};
+const getAllUsers = (limit) => {
+  if (limit) {
+    return users.slice(0, limit);
+  }
+  return users;
+};
+
+const getUserById = (id) => {
+  const user = users.find((item) => id == item.user_id);
+  if (!user) {
+    return undefined;
+  }
+  return user;
+};
+
+export {getAllUsers, getUserById};

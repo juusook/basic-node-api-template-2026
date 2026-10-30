@@ -6,10 +6,12 @@ import {
   getMediaItemById,
   modifyMediaItem,
 } from './media.js';
+import {getAllUsers, getUserById} from './users.js';
+import path from 'path';
+
 const hostname = '127.0.0.1';
 const app = express();
 const port = 3000;
-import path from 'path';
 
 app.set('view engine', 'pug');
 app.set('views', 'src/views');
@@ -82,6 +84,19 @@ app.delete('/api/media/:id', (req, res) => {
 
 // user resource endpoints
 // TODO: ADD
+
+app.get('/api/user', (req, res) => {
+  const items = getAllUsers(req.query.limit);
+  res.json(items);
+});
+
+app.get('/api/user/:id', (req, res) => {
+  const user = getUserById(req.params.id);
+  if (!user) {
+    res.status(404).json({error: 404, message: 'Not found'});
+  }
+  res.json(user);
+});
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);

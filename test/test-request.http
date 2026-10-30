@@ -11,6 +11,9 @@ GET http://localhost:3000/api
 ### Get not found 404
 GET http://localhost:3000/something-not-found
 
+### GET image file by media id
+GET {{apiUrl}}/media/file/9632
+
 ### Post server root
 POST http://localhost:3000/
 
@@ -65,9 +68,10 @@ content-type: application/json
 ### Delete media item 
 DELETE {{apiUrl}}/media/9625
 
-## /users requests
+## /user requests
 
-// TODO: ADD!
+### GET all users
+GET {{apiUrl}}/user
 
-### GET image file by media id
-GET {{apiUrl}}/media/file/9632
+### GET user by id
+GET {{apiUrl}}/user/305

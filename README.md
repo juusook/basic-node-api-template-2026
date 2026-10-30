@@ -4,23 +4,22 @@ Simple backend server using Node.js
 
 Eri viikkojen esimerkit löydät omista kehityshaaroistaan.
 
-## node start
+## Express
 
-Basic dummy web-palvelin ja yksinkertaisella reitityksellä.
+Sain kaikki osiot tehtyä ja api toimii ongelmitta. Itemin kuvan voi hakea itemin ID:llä tai selaimessa /api/media/file/kuvan_nimi
 
-Sain tehtyä kaikki osiot. Loin node.js projektin ja konfiguroin package.json ja eslintin yms. Nodemon myös asennettu ja käytössä. Gitrepo ja .gitignore luotu. Dummy REST API implementoitu ja GET, POST, PUT ja DELETE request funktiot luotu omiin moduuleihinsa. Testattu rest clientilla.
+media.js ja users.js kommentoitu jsDocs tyylillä.
 
-Apin toiminnallisuudet:
-Api käsittelee sarjakuvahahmojen henkilötietoja ja generoi jokaiselle hahmolle automaattisesti sähköpostiosoitteen. Apiin voi lähettää uutta tietoa, joka tallennetaan backendiin. Voi myös muokata jo olemassa olevan hahmon tietoja PUT metodilla.
+PUGilla tehty 'dynamic content rendering'.
 
-GET_all:
-![alt text](images/GET_all.png)
+Kuvia apin toimimmasta:
 
-GET_item_by_id:
-![alt text](images/GET_item_by_id.png)
+- Kuvan hakeminen itemin id:llä. Toimii myös REST Client avulla VS Codessa.
+  ![alt text](images/imageByID.png)
 
-POST:
-![alt text](images/POST.png)
-
-PUT:
-![alt text](images/PUT.png)
+- Users querys
+  ![alt text](images/addUser.png)
+  ![alt text](images/delete.png)
+  ![alt text](images/getAllUsers.png)
+  ![alt text](images/getAllUsers.png)
+  ![alt text](images/update.png)

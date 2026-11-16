@@ -1,11 +1,4 @@
 import express from 'express';
-import {
-  getAllUsers,
-  getUserById,
-  addUser,
-  modifyUser,
-  deleteUser,
-} from './users.js';
 import path from 'path';
 import mediaRouter from './routes/media-routes.js';
 

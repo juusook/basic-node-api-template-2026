@@ -2,10 +2,17 @@
 // How to handle errors in controller?
 import promisePool from '../utils/database.js';
 
-const listAllMedia = async () => {
+const listAllMedia = async (limit) => {
   try {
-    const [rows] = await promisePool.query('SELECT * FROM mediaItems');
-    console.log('rows', rows);
+    let result;
+    if (limit) {
+      result = await promisePool.execute('SELECT * FROM MediaItems LIMIT ?', [
+        parseInt(limit, 10),
+      ]);
+    } else {
+      result = await promisePool.execute('SELECT * FROM MediaItems');
+    }
+    const [rows] = result;
     return rows;
   } catch (e) {
     console.error('error', e.message);
@@ -16,7 +23,7 @@ const listAllMedia = async () => {
 const findMediaById = async (id) => {
   try {
     const [rows] = await promisePool.execute(
-      'SELECT * FROM mediaItems WHERE media_id = ?',
+      'SELECT * FROM MediaItems WHERE media_id = ?',
       [id],
     );
     console.log('rows', rows);
@@ -28,8 +35,12 @@ const findMediaById = async (id) => {
 };
 
 const addMedia = async (media) => {
+  if (!media.description) {
+    media.description = '';
+  }
+
   const {user_id, filename, size, mimetype, title, description} = media;
-  const sql = `INSERT INTO mediaItems (user_id, filename, filesize, media_type, title, description)
+  const sql = `INSERT INTO MediaItems (user_id, filename, filesize, media_type, title, description)
                VALUES (?, ?, ?, ?, ?, ?)`;
   const params = [user_id, filename, size, mimetype, title, description];
   try {
@@ -42,4 +53,35 @@ const addMedia = async (media) => {
   }
 };
 
-export {listAllMedia, findMediaById, addMedia};
+const modifyMedia = async (id, media) => {
+  const {title, description} = media;
+  const sql =
+    'UPDATE MediaItems SET title = ?, description = ? WHERE media_id = ?';
+  const params = [title, description, id];
+  try {
+    const [result] = await promisePool.execute(sql, params);
+    if (result.affectedRows === 0) {
+      return false;
+    }
+    return {message: 'Media item updated', media_id: id};
+  } catch (e) {
+    console.error('error', e.message);
+    return {error: e.message};
+  }
+};
+
+const removeMedia = async (id) => {
+  const sql = 'DELETE FROM MediaItems WHERE media_id = ?';
+  try {
+    const [result] = await promisePool.execute(sql, [id]);
+    if (result.affectedRows === 0) {
+      return false;
+    }
+    return {message: 'Media item deleted', media_id: id};
+  } catch (e) {
+    console.error('error', e.message);
+    return {error: e.message};
+  }
+};
+
+export {listAllMedia, findMediaById, addMedia, modifyMedia, removeMedia};

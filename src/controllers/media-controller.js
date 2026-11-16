@@ -20,6 +20,9 @@ const getMediaById = async (req, res) => {
 };
 
 const postMedia = async (req, res) => {
+  if (!req.file) {
+    return res.sendStatus(400);
+  }
   const {filename, size, mimetype} = req.file;
   const {title, description, user_id} = req.body;
   if (filename && title && user_id) {

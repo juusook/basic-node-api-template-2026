@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import mediaRouter from './routes/media-routes.js';
+import userRouter from './routes/user-routes.js';
 
 const hostname = '127.0.0.1';
 const app = express();
@@ -30,7 +31,7 @@ app.get('/api', (req, res) => {
 app.use('/api/media', mediaRouter);
 
 // User resource routes (/api/users endpoints)
-/* app.use('/api/users', userRouter); */
+app.use('/api/users', userRouter);
 
 // Start the server
 app.listen(port, hostname, () => {

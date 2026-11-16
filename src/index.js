@@ -1,12 +1,5 @@
 import express from 'express';
 import {
-  addMediaItem,
-  deleteMediaItem,
-  getAllMediaItems,
-  getMediaItemById,
-  modifyMediaItem,
-} from './media.js';
-import {
   getAllUsers,
   getUserById,
   addUser,
@@ -14,6 +7,7 @@ import {
   deleteUser,
 } from './users.js';
 import path from 'path';
+import mediaRouter from './routes/media-routes.js';
 
 const hostname = '127.0.0.1';
 const app = express();
@@ -39,95 +33,11 @@ app.get('/api', (req, res) => {
 });
 
 // Media resource routes (/api/media endpoints)
-app.get('/api/media', (req, res) => {
-  const items = getAllMediaItems(req.query.limit);
-  res.json(items);
-});
 
-app.get('/api/media/:id', (req, res) => {
-  const mediaItem = getMediaItemById(req.params.id);
-  if (mediaItem) {
-    res.json(mediaItem);
-  } else {
-    res.status(404).json({error: 404, message: 'Not found'});
-  }
-});
+app.use('/api/media', mediaRouter);
 
-// Get media image by id
-app.get('/api/media/file/:id/', (req, res) => {
-  const mediaItem = getMediaItemById(req.params.id);
-  if (mediaItem) {
-    res.sendFile(path.resolve(`media/${mediaItem.filename}`));
-  } else {
-    res.status(404).json({error: 404, message: 'Not found'});
-  }
-});
-
-app.post('/api/media', (req, res) => {
-  // dummy validation example
-  if (!req.body.title) {
-    return res.status(400).json({error: 400, message: 'Something missing!'});
-  }
-  addMediaItem(req.body);
-  res.status(201).json({message: 'New media item added.'});
-});
-
-app.put('/api/media/:id', (req, res) => {
-  const updatedItem = modifyMediaItem(req.params.id, req.body);
-  if (!updatedItem) {
-    return res.status(404).json({error: 404, message: 'Item not found!'});
-  }
-  res.json({message: 'Media updated!', updatedItem});
-});
-
-app.delete('/api/media/:id', (req, res) => {
-  const success = deleteMediaItem(req.params.id);
-  if (!success) {
-    return res.status(404).json({error: 404, message: 'Item not found!'});
-  }
-  res.json({message: 'Media deleted!'});
-});
-
-// user resource endpoints
-
-// Get querys
-app.get('/api/user', (req, res) => {
-  const items = getAllUsers(req.query.limit);
-  res.json(items);
-});
-
-app.get('/api/user/:id', (req, res) => {
-  const user = getUserById(req.params.id);
-  if (!user) {
-    res.status(404).json({error: 404, message: 'Not found'});
-  }
-  res.json(user);
-});
-
-// Post query
-app.post('/api/user', (req, res) => {
-  if (!req.body.user_name) {
-    return res.status(400).json({error: 400, message: 'Something missing!'});
-  }
-  addUser(req.body);
-  res.status(201).json({message: 'New user added.'});
-});
-
-app.put('/api/user/:id', (req, res) => {
-  const updatedUser = modifyUser(req.params.id, req.body);
-  if (!updatedUser) {
-    return res.status(404).json({error: 404, message: 'User not found!'});
-  }
-  res.json({message: 'User updated!', updatedUser});
-});
-
-app.delete('/api/user/:id', (req, res) => {
-  const success = deleteUser(req.params.id);
-  if (!success) {
-    return res.status(404).json({error: 404, message: 'User not found!'});
-  }
-  res.json({message: 'User deleted!'});
-});
+// User resource routes (/api/users endpoints)
+/* app.use('/api/users', userRouter); */
 
 // Start the server
 app.listen(port, hostname, () => {

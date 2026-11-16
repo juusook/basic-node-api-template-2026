@@ -1,126 +1,111 @@
-# Test http requests for my api
-@apiUrl = http://localhost:3000/api
+@baseUrl = http://127.0.0.1:3000/api
 
+### MEDIA ENDPOINTS (/api/media)
 
-### Get server root
-GET http://localhost:3000/
+### Hae kaikki mediat
+GET {{baseUrl}}/media
 
-### Get api root
-GET http://localhost:3000/api
+### Hae rajoitettu määrä medioita (limit)
+GET {{baseUrl}}/media?limit=2
 
-### Get not found 404
-GET http://localhost:3000/something-not-found
+### Hae yksittäinen media ID:llä
+GET {{baseUrl}}/media/1
 
-### Post server root
-POST http://localhost:3000/
-
-##################
-## /media requests
-##################
-
-### GET all media items
-GET {{apiUrl}}/media
-
-### GET 3 latest media items
-GET {{apiUrl}}/media?limit=2
-
-### GET media item by id
-GET {{apiUrl}}/media/9626
-
-### GET media item by id (Not found)
-GET {{apiUrl}}/media/0
-
-### GET image file by media id
-GET {{apiUrl}}/media/file/9632
-
-### Add new media item
-POST {{apiUrl}}/media
-content-type: application/json
-
-{
-  "filename": "60ac.jpg",
-  "title": "New image",
-  "description": "The description of the new image",
-  "user_id": 305,
-  "media_type": "image/jpeg"
-}
-
-### Add new media item (Bad request, title missing)
-POST {{apiUrl}}/media
-content-type: application/json
-
-{
-  "filename": "60ac.jpg",
-  "description": "The description of the new image",
-  "user_id": 305,
-  "media_type": "image/jpeg"
-}
-
-### Modify existing media item 
-PUT {{apiUrl}}/media/9632
-content-type: application/json
-
-{
-  "description": "updated desc",
-  "title": "Uus title"
-}
-
-### Delete media item 
-DELETE {{apiUrl}}/media/9625
-
-#################################
-#################################
-
-## /USERS REQUESTS
-
-### GET all users
-GET {{apiUrl}}/user
-
-### GET user by id
-GET {{apiUrl}}/user/305
-
-### Add new media item
-POST {{apiUrl}}/user
-content-type: application/json
-
-{
-  "user_name": "Batman",
-  "password": "password123",
-  "email": "batman.kayttaja@email.com",
-  "user_level_id": "1"
-}
-
-### Modify existing user item 
-PUT {{apiUrl}}/user/305
-content-type: application/json
-
-{
-  "username": "updated desc",
-  "email": "updated@example.com"
-}
-
-### Delete user item 
-DELETE {{apiUrl}}/user/261
-
-###
-POST http://127.0.0.1:3000/api/media
+### Lataa uusi kuva palvelimelle (Multer)
+POST {{baseUrl}}/media
 Content-Type: multipart/form-data; boundary=----Boundary
 
 ------Boundary
 Content-Disposition: form-data; name="title"
 
-Uusi testikuva
+REST Client Testikuva
 ------Boundary
 Content-Disposition: form-data; name="description"
 
-Kuvaus testikuvalle
+Ladattu test-request.http-tiedostosta
 ------Boundary
 Content-Disposition: form-data; name="user_id"
 
 1
 ------Boundary
-Content-Disposition: form-data; name="file"; filename="testikuva.jpg"
-Content-Type: image/jpeg
+Content-Disposition: form-data; name="file"; filename="ffd8.png"
+Content-Type: image/png
 
-< ./media/youtube-brands-solid.png
+< ../media/ffd8.png
 ------Boundary--
+
+### Muokkaa olemassa olevaa mediaa
+PUT {{baseUrl}}/media/1
+Content-Type: application/json
+
+{
+  "title": "Päivitetty otsikko",
+  "description": "Päivitetty kuvaus tietokantaan"
+}
+
+### Poista media ID:llä
+DELETE {{baseUrl}}/media/6
+
+
+### USER ENDPOINTS (/api/users)
+
+### Hae kaikki käyttäjät
+GET {{baseUrl}}/users
+
+### Hae yksittäinen käyttäjä ID:llä
+GET {{baseUrl}}/users/1
+
+### Luo uusi käyttäjä
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "username": "testikayttaja",
+  "password": "salasana123",
+  "email": "testi@example.com",
+  "user_level_id": 2
+}
+
+### Muokkaa käyttäjän tietoja
+PUT {{baseUrl}}/users/4
+Content-Type: application/json
+
+{
+  "username": "paivitetty_kayttaja",
+  "password": "uusisalasana456",
+  "email": "paivitetty@example.com"
+}
+
+### Poista käyttäjä ID:llä 
+DELETE {{baseUrl}}/users/4
+
+
+### LIKES ENDPOINTS (/api/likes)
+
+
+### Hae tietyn median tykkäykset (media_id = 1)
+GET {{baseUrl}}/likes/media/1
+
+### Hae tietyn käyttäjän tykkäykset (user_id = 1)
+GET {{baseUrl}}/likes/user/1
+
+### Lisää uusi tykkäys
+POST {{baseUrl}}/likes
+Content-Type: application/json
+
+{
+  "media_id": 4,
+  "user_id": 2
+}
+
+### Kokeile lisätä sama tykkäys uudestaan (palauttaa 409 Conflict)
+POST {{baseUrl}}/likes
+Content-Type: application/json
+
+{
+  "media_id": 7,
+  "user_id": 2
+}
+
+### Poista tykkäys ID:llä
+DELETE {{baseUrl}}/likes/4

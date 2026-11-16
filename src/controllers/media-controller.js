@@ -1,7 +1,13 @@
-import {addMedia, findMediaById, listAllMedia} from '../models/media-model.js';
+import {
+  addMedia,
+  findMediaById,
+  listAllMedia,
+  modifyMedia,
+  removeMedia,
+} from '../models/media-model.js';
 
 const getMedia = async (req, res) => {
-  const result = await listAllMedia();
+  const result = await listAllMedia(req.query.limit);
   if (!result.error) {
     res.json(result);
   } else {
@@ -46,14 +52,26 @@ const postMedia = async (req, res) => {
   }
 };
 
-const putMedia = (req, res) => {
-  // not implemented in this example, this is/(or already was) homework!!!
-  res.sendStatus(200);
+const putMedia = async (req, res) => {
+  const result = await modifyMedia(req.params.id, req.body);
+  if (!result) {
+    return res.status(404).json({error: 404, message: 'Media item not found'});
+  }
+  if (result.error) {
+    return res.status(500).json(result);
+  }
+  res.json(result);
 };
 
-const deleteMedia = (req, res) => {
-  // not implemented in this example, this is/was homework!!!
-  res.sendStatus(200);
+const deleteMedia = async (req, res) => {
+  const result = await removeMedia(req.params.id);
+  if (!result) {
+    return res.status(404).json({error: 404, message: 'Media item not found'});
+  }
+  if (result.error) {
+    return res.status(500).json(result);
+  }
+  res.json(result);
 };
 
 export {getMedia, getMediaById, postMedia, putMedia, deleteMedia};

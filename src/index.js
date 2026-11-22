@@ -29,15 +29,11 @@ app.get('/api', (req, res) => {
 });
 
 // Media resource routes (/api/media endpoints)
-
 app.use('/api/media', mediaRouter);
-
 // User resource routes (/api/users endpoints)
 app.use('/api/users', userRouter);
-
 // Like resource routes (/api/likes endpoints)
 app.use('/api/likes', likeRouter);
-
 // user authentication
 app.use('/api/auth', authRouter);
 

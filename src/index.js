@@ -3,6 +3,7 @@ import path from 'path';
 import mediaRouter from './routes/media-routes.js';
 import userRouter from './routes/user-routes.js';
 import likeRouter from './routes/like-routes.js';
+import authRouter from './routes/auth.router.js';
 
 const hostname = '127.0.0.1';
 const app = express();
@@ -36,6 +37,9 @@ app.use('/api/users', userRouter);
 
 // Like resource routes (/api/likes endpoints)
 app.use('/api/likes', likeRouter);
+
+// user authentication
+app.use('/api/auth', authRouter);
 
 // Start the server
 app.listen(port, hostname, () => {

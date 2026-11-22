@@ -1,9 +1,8 @@
 import express from 'express';
-import path from 'path';
 import mediaRouter from './routes/media-routes.js';
 import userRouter from './routes/user-routes.js';
 import likeRouter from './routes/like-routes.js';
-import authRouter from './routes/auth.router.js';
+import authRouter from './routes/auth-routes.js';
 
 const hostname = '127.0.0.1';
 const app = express();

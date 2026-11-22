@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
-import {selectUserByUsername} from '../models/user-model.js';
+import {findUserByUsername} from '../models/users-model.js';
 import 'dotenv/config';
 
 const postLogin = async (req, res) => {
   console.log('postLogin', req.body);
-  const user = await selectUserByUsername(req.body.username);
+  const user = await findUserByUsername(req.body.username);
   //console.log('user found?', user);
   if (user && user.password === req.body.password) {
     delete user.password;

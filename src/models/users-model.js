@@ -23,6 +23,19 @@ const findUserById = async (id) => {
   }
 };
 
+const findUserByUsername = async (username) => {
+  try {
+    const [rows] = await promisePool.execute(
+      'SELECT * FROM Users WHERE username = ?',
+      [username],
+    );
+    return rows[0];
+  } catch (e) {
+    console.error('error', e.message);
+    return {error: e.message};
+  }
+};
+
 const addUser = async (user) => {
   const {username, password, email, user_level_id} = user;
   // Jos user_level_id jätetään antamatta, asetetaan oletukseksi peruskäyttäjä (2)
@@ -73,4 +86,11 @@ const deleteUser = async (id) => {
   }
 };
 
-export {listAllUsers, findUserById, addUser, modifyUser, deleteUser};
+export {
+  listAllUsers,
+  findUserById,
+  findUserByUsername,
+  addUser,
+  modifyUser,
+  deleteUser,
+};

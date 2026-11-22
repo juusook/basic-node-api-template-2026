@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import {findUserByUsername} from '../models/users-model.js';
 import 'dotenv/config';
 
+// User authentication controller functions
 const postLogin = async (req, res) => {
   console.log('postLogin', req.body);
   const user = await findUserByUsername(req.body.username);

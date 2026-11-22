@@ -1,4 +1,5 @@
 import express from 'express';
+import {authenticateToken} from '../middlewares/authentication.js';
 import {
   getMedia,
   getMediaById,
@@ -10,8 +11,15 @@ import upload from '../middlewares/upload.js';
 
 const mediaRouter = express.Router();
 
-mediaRouter.route('/').get(getMedia).post(upload.single('file'), postMedia);
+mediaRouter
+  .route('/')
+  .get(getMedia)
+  .post(authenticateToken, upload.single('file'), postMedia);
 
-mediaRouter.route('/:id').get(getMediaById).put(putMedia).delete(deleteMedia);
+mediaRouter
+  .route('/:id')
+  .get(getMediaById)
+  .put(authenticateToken, putMedia)
+  .delete(authenticateToken, deleteMedia);
 
 export default mediaRouter;

@@ -53,11 +53,18 @@ const addMedia = async (media) => {
   }
 };
 
-const modifyMedia = async (id, media) => {
+const modifyMedia = async (id, media, user) => {
   const {title, description} = media;
-  const sql =
+  let sql =
     'UPDATE MediaItems SET title = ?, description = ? WHERE media_id = ?';
   const params = [title, description, id];
+
+  // If the user is not an admin, restrict the update to their own media items
+  if (user.user_level_id !== 1) {
+    sql += ' AND user_id = ?';
+    params.push(user.user_id);
+  }
+
   try {
     const [result] = await promisePool.execute(sql, params);
     if (result.affectedRows === 0) {
@@ -70,8 +77,16 @@ const modifyMedia = async (id, media) => {
   }
 };
 
-const removeMedia = async (id) => {
-  const sql = 'DELETE FROM MediaItems WHERE media_id = ?';
+const removeMedia = async (id, user) => {
+  let sql = 'DELETE FROM MediaItems WHERE media_id = ?';
+  let params = [id];
+
+  // If the user is not an admin, only allow deletion of their own media items
+  if (user.user_level_id !== 1) {
+    sql += ' AND user_id = ?';
+    params.push(user.user_id);
+  }
+
   try {
     const [result] = await promisePool.execute(sql, [id]);
     if (result.affectedRows === 0) {

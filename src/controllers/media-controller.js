@@ -30,7 +30,9 @@ const postMedia = async (req, res) => {
     return res.sendStatus(400);
   }
   const {filename, size, mimetype} = req.file;
-  const {title, description, user_id} = req.body;
+  const {title, description} = req.body;
+  const user_id = req.user.user_id;
+
   if (filename && title && user_id) {
     const result = await addMedia({
       filename,
@@ -53,7 +55,7 @@ const postMedia = async (req, res) => {
 };
 
 const putMedia = async (req, res) => {
-  const result = await modifyMedia(req.params.id, req.body);
+  const result = await modifyMedia(req.params.id, req.body, req.user);
   if (!result) {
     return res.status(404).json({error: 404, message: 'Media item not found'});
   }
@@ -64,7 +66,7 @@ const putMedia = async (req, res) => {
 };
 
 const deleteMedia = async (req, res) => {
-  const result = await removeMedia(req.params.id);
+  const result = await removeMedia(req.params.id, req.user);
   if (!result) {
     return res.status(404).json({error: 404, message: 'Media item not found'});
   }

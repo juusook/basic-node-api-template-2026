@@ -1,8 +1,9 @@
 import express from 'express';
-import path from 'path';
-import mediaRouter from './routes/media-routes.js';
-import userRouter from './routes/user-routes.js';
-import likeRouter from './routes/like-routes.js';
+import mediaRouter from './routes/media-router.js';
+import userRouter from './routes/user-router.js';
+import {logRequest} from './middlewares/logger.js';
+import authRouter from './routes/auth.router.js';
+import {errorHandler, notFoundHandler} from './middlewares/error-handlers.js';
 
 const hostname = '127.0.0.1';
 const app = express();
@@ -11,13 +12,13 @@ const port = 3000;
 app.set('view engine', 'pug');
 app.set('views', 'src/views');
 
+// käytetään omaan logger-middlewarea jokaiselle http-pyynnölle
+app.use(logRequest);
+
 app.use(express.json());
 
 // public-kansion kaikki sisältö tarjoillaan palvelimen juuri-urlissa
 app.use('/', express.static('public'));
-
-// media-kansion kuvat tarjoillaan /media-urlissa
-app.use('/media', express.static('media'));
 
 // API "docs" using pug template engine
 app.get('/api', (req, res) => {
@@ -27,17 +28,18 @@ app.get('/api', (req, res) => {
   });
 });
 
-// Media resource routes (/api/media endpoints)
-
+// All media resource routes (/api/media endpoints) are handled with media router
 app.use('/api/media', mediaRouter);
-
-// User resource routes (/api/users endpoints)
+// user resource endpoints
 app.use('/api/users', userRouter);
+// user authentication
+app.use('/api/auth', authRouter);
 
-// Like resource routes (/api/likes endpoints)
-app.use('/api/likes', likeRouter);
+// oletusreitti kaikille http-pyynnöille, joille ei ole määritelty reittiä.
+app.use(notFoundHandler);
+// oletusvirheenkäsittely
+app.use(errorHandler);
 
-// Start the server
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });

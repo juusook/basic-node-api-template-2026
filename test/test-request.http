@@ -75,9 +75,10 @@ content-type: application/json
   "media_type": "image/jpeg"
 }
 
-### Modify existing media item 
-PUT {{apiUrl}}/media/9632
+### Modify own media item (200 OK)
+PUT {{apiUrl}}/media/5
 content-type: application/json
+Authorization: Bearer {{login.response.body.token}}
 
 {
   "description": "updated desc",
@@ -85,16 +86,37 @@ content-type: application/json
 }
 
 ### Delete media item 
-DELETE {{apiUrl}}/media/2
+DELETE {{apiUrl}}/media/1
 Authorization: Bearer {{login.response.body.token}}
 
-## /users requests
+## / USERS REQUESTS
 
-// TODO: ADD!
+### Update own user info (200 OK)
+PUT {{apiUrl}}/users/2
+content-type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "username": "JaneSmith",
+  "password": "to-be-hashed-pw2",
+  "email": "jane.updated@example.com"
+}
+
+### Try to update another user's info (404 Not Found)
+PUT {{apiUrl}}/users/1
+content-type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "username": "HackedUser",
+  "password": "newpassword",
+  "email": "hack@example.com"
+}
+
 
 ## Authentication routes
 
-### Post login
+### Post login with normal user
 # @name login
 POST {{apiUrl}}/auth/login
 content-type: application/json
@@ -102,6 +124,16 @@ content-type: application/json
 {
   "username": "JaneSmith",
   "password": "to-be-hashed-pw2"
+}
+
+### POST login with admin user
+# @name login
+POST {{apiUrl}}/auth/login
+content-type: application/json
+
+{
+  "username": "AdminUser",
+  "password": "to-be-hashed-pw4"
 }
 
 ### Get user info

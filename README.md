@@ -10,7 +10,7 @@ Sain tehtyä kaikki osiot kaikki devauksen aikana ilmenneet ongelmat korjattu ja
 
 Tässä haarassa toteutettu käyttäjätasoon perustuva JWT authentication. Käyttäjätasoja ovat 2=peruskäyttäjä ja 1=admin. Omistajuus/admintaso tarkistetaan aina kyseisellä reitillä, jotta vain resurssin omistava käyttäjä voi muokata, poistsaa tai päivittää dataansa. Admin oikeudet mahdollistavat minkä tahansa datan muokkaamisen ja poistamisen.
 
-# KUVIA TOIMINNASTA
+### KUVIA TOIMINNASTA
 
 Kuvia vain muutaman, koska käyttäjätasojen välillä ei kuvissa näy mitään eroa, mutta ne on testattu toimiviksi.
 

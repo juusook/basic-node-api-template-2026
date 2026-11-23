@@ -86,9 +86,9 @@ const removeMedia = async (id, user) => {
     sql += ' AND user_id = ?';
     params.push(user.user_id);
   }
-
+  console.log('removeMedia sql', sql, 'params', params);
   try {
-    const [result] = await promisePool.execute(sql, [id]);
+    const [result] = await promisePool.execute(sql, params);
     if (result.affectedRows === 0) {
       return false;
     }

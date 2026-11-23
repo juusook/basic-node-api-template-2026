@@ -17,7 +17,7 @@ CREATE TABLE Users (
     email VARCHAR(100) NOT NULL UNIQUE,
     user_level_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_level_id) REFERENCES UserLevels(level_id)
+    FOREIGN KEY (user_level_id) REFERENCES UserLevels(level_id) ON DELETE CASCADE
 );
 
 CREATE TABLE MediaItems (
@@ -29,7 +29,7 @@ CREATE TABLE MediaItems (
     title VARCHAR(255) NOT NULL,
     description VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Comments (
@@ -38,8 +38,8 @@ CREATE TABLE Comments (
     user_id INT NOT NULL,
     comment_text TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (media_id) REFERENCES MediaItems(media_id),
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+    FOREIGN KEY (media_id) REFERENCES MediaItems(media_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Likes (
@@ -47,8 +47,8 @@ CREATE TABLE Likes (
     media_id INT NOT NULL,
     user_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (media_id) REFERENCES MediaItems(media_id),
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+    FOREIGN KEY (media_id) REFERENCES MediaItems(media_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Ratings (
@@ -57,8 +57,8 @@ CREATE TABLE Ratings (
     user_id INT NOT NULL,
     rating_value INT NOT NULL CHECK (rating_value BETWEEN 1 AND 5),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (media_id) REFERENCES MediaItems(media_id),
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+    FOREIGN KEY (media_id) REFERENCES MediaItems(media_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Tags (
@@ -70,8 +70,8 @@ CREATE TABLE MediaItemTags (
     media_id INT NOT NULL,
     tag_id INT NOT NULL,
     PRIMARY KEY (media_id, tag_id),
-    FOREIGN KEY (media_id) REFERENCES MediaItems(media_id),
-    FOREIGN KEY (tag_id) REFERENCES Tags(tag_id)
+    FOREIGN KEY (media_id) REFERENCES MediaItems(media_id) ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES Tags(tag_id) ON DELETE CASCADE
 );
 
 

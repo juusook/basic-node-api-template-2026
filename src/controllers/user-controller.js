@@ -48,7 +48,7 @@ const putUser = async (req, res) => {
       message: 'Missing required fields (username, password, email)',
     });
   }
-  const result = await modifyUser(req.params.id, req.body);
+  const result = await modifyUser(req.params.id, req.body, req.user);
   if (!result) {
     return res.status(404).json({error: 404, message: 'User not found'});
   }
@@ -59,7 +59,7 @@ const putUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-  const result = await deleteUserModel(req.params.id);
+  const result = await deleteUserModel(req.params.id, req.user);
   if (!result) {
     return res.status(404).json({error: 404, message: 'User not found'});
   }

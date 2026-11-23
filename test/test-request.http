@@ -31,7 +31,7 @@ GET {{apiUrl}}/media/2
 ### GET media item by id (Not found)
 GET {{apiUrl}}/media/0
 
-### Add new media item (JSON, no file included!)
+### Add new media item (JSON, no file included!) / NO TOKEN!
 POST {{apiUrl}}/media
 content-type: application/json
 
@@ -43,7 +43,7 @@ content-type: application/json
   "media_type": "image/jpeg"
 }
 
-### Add new media item WITH IMAGE (form-data) with token
+### Add new media item WITH IMAGE (form-data) WITH TOKEN!
 POST {{apiUrl}}/media
 Authorization: Bearer {{login.response.body.token}}
 Content-Type: multipart/form-data; boundary=----Boundary
@@ -85,7 +85,7 @@ content-type: application/json
 }
 
 ### Delete media item 
-DELETE {{apiUrl}}/media/13
+DELETE {{apiUrl}}/media/2
 Authorization: Bearer {{login.response.body.token}}
 
 ## /users requests

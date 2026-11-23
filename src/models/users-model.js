@@ -52,14 +52,21 @@ const addUser = async (user) => {
   }
 };
 
-const modifyUser = async (id, user) => {
+const modifyUser = async (id, user, currentUser) => {
   const {username, password, email} = user;
   if (!username || !password || !email) {
     return {error: 'Missing required fields'};
   }
-  const sql = `UPDATE Users SET username = ?, password = ?, email = ?
-               WHERE user_id = ?`;
+
+  // If the user is not an admin, restrict the update to their own user information
+  let sql =
+    'UPDATE Users SET username = ?, password = ?, email = ? WHERE user_id = ?';
   const params = [username, password, email, id];
+  if (currentUser.user_level_id !== 1) {
+    sql += ' AND user_id = ?';
+    params.push(currentUser.user_id);
+  }
+
   try {
     const [result] = await promisePool.execute(sql, params);
     if (result.affectedRows === 0) {
@@ -72,7 +79,14 @@ const modifyUser = async (id, user) => {
   }
 };
 
-const deleteUser = async (id) => {
+const deleteUser = async (id, currentUser) => {
+  // If the user is not an admin, only allow deletion of their own user information
+  if (currentUser.user_level_id !== 1) {
+    if (currentUser.user_id !== Number(id)) {
+      return {error: 'You are not allowed to delete this user'};
+    }
+  }
+
   const sql = 'DELETE FROM Users WHERE user_id = ?';
   try {
     const [result] = await promisePool.execute(sql, [id]);

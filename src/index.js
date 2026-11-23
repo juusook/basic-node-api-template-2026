@@ -1,9 +1,9 @@
 import express from 'express';
-import mediaRouter from './routes/media-router.js';
-import userRouter from './routes/user-router.js';
+import mediaRouter from './routes/media-routes.js';
+import userRouter from './routes/user-routes.js';
 import {logRequest} from './middlewares/logger.js';
-import authRouter from './routes/auth.router.js';
-import {errorHandler, notFoundHandler} from './middlewares/error-handlers.js';
+import authRouter from './routes/auth-router.js';
+import {errorHandler, notFoundHandler} from './middlewares/error-handler.js';
 
 const hostname = '127.0.0.1';
 const app = express();

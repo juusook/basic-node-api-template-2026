@@ -67,7 +67,7 @@ Content-Type: image/jpeg
 ### Add new media item (Bad request, title missing)
 POST {{apiUrl}}/media
 content-type: application/json
-
+  
 {
   "filename": "60ac.jpg",
   "description": "The description of the new image",
@@ -90,7 +90,14 @@ Authorization: Bearer {{login.response.body.token}}
 
 ## /users requests
 
-// TODO: ADD!
+### Bad user creation (missing fields) 
+POST {{apiUrl}}/users
+content-type: application/json 
+
+{
+  "username": "JaneSmith"
+}
+
 
 ## Authentication routes
 
@@ -107,3 +114,44 @@ content-type: application/json
 ### Get user info
 GET {{apiUrl}}/auth/me
 Authorization: Bearer {{login.response.body.token}}
+
+  "title": "Tiedosto puuttuu"
+}
+
+### Väärä tiedostotyyppi (400 Bad Request)
+POST {{apiUrl}}/media
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: multipart/form-data; boundary=----Boundary
+
+------Boundary
+Content-Disposition: form-data; name="title"
+
+Väärä tiedostotyyppi
+------Boundary
+Content-Disposition: form-data; name="file"; filename="test-request.http"
+Content-Type: text/plain
+
+< ./test-request.http
+------Boundary--
+
+### Liian suuri tiedosto > 10 MB (400 Bad Request)
+POST {{apiUrl}}/media
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: multipart/form-data; boundary=----Boundary
+
+------Boundary
+Content-Disposition: form-data; name="title"
+
+Liian suuri tiedosto
+------Boundary
+Content-Disposition: form-data; name="file"; filename="iso-kuva.jpg"
+Content-Type: image/jpeg
+
+< ../media/suuri_kuva2.jpg
+------Boundary--
+
+### Virheellinen ID-parametri (400 Bad Request)
+GET {{apiUrl}}/media/abc
+
+### Olematon reitti (404 Not Found)
+GET {{apiUrl}}/olematonreitti

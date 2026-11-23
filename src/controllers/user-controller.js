@@ -6,65 +6,82 @@ import {
   deleteUser as deleteUserModel,
 } from '../models/users-model.js';
 
-const getUsers = async (req, res) => {
+const getUsers = async (req, res, next) => {
   const result = await listAllUsers();
   if (!result.error) {
     res.json(result);
   } else {
-    res.status(500).json(result);
+    const error = new Error(result.error);
+    error.status = 500;
+    return next(error);
   }
 };
 
-const getUserById = async (req, res) => {
+const getUserById = async (req, res, next) => {
   const user = await findUserById(req.params.id);
   if (!user) {
-    return res.status(404).json({error: 404, message: 'User not found'});
+    const error = new Error('User not found');
+    error.status = 404;
+    return next(error);
   }
   if (user.error) {
-    return res.status(500).json(user);
+    const error = new Error(user.error);
+    error.status = 500;
+    return next(error);
   }
   res.json(user);
 };
 
-const postUser = async (req, res) => {
+const postUser = async (req, res, next) => {
   const {username, password, email} = req.body;
   if (username && password && email) {
     const result = await addUser(req.body);
     if (result.user_id) {
       res.status(201).json({message: 'New user added.', ...result});
     } else {
-      res.status(500).json(result);
+      const error = new Error('Failed to add user');
+      error.status = 500;
+      return next(error);
     }
   } else {
-    res.status(400).json({error: 400, message: 'Missing required fields'});
+    const error = new Error('Missing required fields');
+    error.status = 400;
+    return next(error);
   }
 };
 
-const putUser = async (req, res) => {
+const putUser = async (req, res, next) => {
   const {username, password, email} = req.body;
   if (!username || !password || !email) {
-    return res.status(400).json({
-      error: 400,
-      message: 'Missing required fields (username, password, email)',
-    });
+    const error = new Error('Missing required fields');
+    error.status = 400;
+    return next(error);
   }
   const result = await modifyUser(req.params.id, req.body);
   if (!result) {
-    return res.status(404).json({error: 404, message: 'User not found'});
+    const error = new Error('User not found');
+    error.status = 404;
+    return next(error);
   }
   if (result.error) {
-    return res.status(500).json(result);
+    const error = new Error(result.error);
+    error.status = 500;
+    return next(error);
   }
   res.json(result);
 };
 
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res, next) => {
   const result = await deleteUserModel(req.params.id);
   if (!result) {
-    return res.status(404).json({error: 404, message: 'User not found'});
+    const error = new Error('User not found');
+    error.status = 404;
+    return next(error);
   }
   if (result.error) {
-    return res.status(500).json(result);
+    const error = new Error(result.error);
+    error.status = 500;
+    return next(error);
   }
   res.json(result);
 };

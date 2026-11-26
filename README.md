@@ -8,7 +8,7 @@ Eri viikkojen esimerkit löydät omista kehityshaaroistaan.
 
 Sain tehtyä kaikki tehtävät security ja documentation osioista ja tein ne molemmat tähän security kehityshaaraan.
 
-Tein salasanojen hashauksen bcryptjs paketilla.
+Tein salasanojen hashauksen bcryptjs paketilla. Salasanoista vain bcryptin konfauksen jälkeen luodut ovat kryptattu (eli viimeinen), koska en tässä harjoituksessa viitsinyt käyttää aikaa muiden kryptaamiseen, sillä olen tekemässä sitä juuri projektissa.
 ![password hashed](images/salasana_hashed.png)
 
 Otin myös käyttöön CORSin, joka mahdollistaa Cross-origin resource sharing eli eri palvelimien välisen viestinnän ja tiedon jakamisen. Tämä on otettu käyttöön myös projektissa, front-end Vite konfauksen takia.

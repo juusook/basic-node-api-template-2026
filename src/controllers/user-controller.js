@@ -5,6 +5,7 @@ import {
   modifyUser,
   deleteUser as deleteUserModel,
 } from '../models/users-model.js';
+import bcrypt from 'bcryptjs';
 
 const getUsers = async (req, res, next) => {
   const result = await listAllUsers();
@@ -35,6 +36,9 @@ const getUserById = async (req, res, next) => {
 const postUser = async (req, res, next) => {
   const {username, password, email} = req.body;
   if (username && password && email) {
+    const salt = await bcrypt.genSalt(10);
+    req.body.password = await bcrypt.hash(req.body.password, salt);
+
     const result = await addUser(req.body);
     if (result.user_id) {
       res.status(201).json({message: 'New user added.', ...result});
@@ -57,6 +61,8 @@ const putUser = async (req, res, next) => {
     error.status = 400;
     return next(error);
   }
+  const salt = await bcrypt.genSalt(10);
+  req.body.password = await bcrypt.hash(req.body.password, salt);
   const result = await modifyUser(req.params.id, req.body);
   if (!result) {
     const error = new Error('User not found');

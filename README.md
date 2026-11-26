@@ -4,18 +4,21 @@ Simple backend server using Node.js
 
 Eri viikkojen esimerkit löydät omista kehityshaaroistaan.
 
-## Validation
+## Security
 
-Kaikki osat tehty. Syötteet sanitoitu ja validoitu. Tässä haarassa ei ole toteutettu autentikaatiota kokonaan eikä käyttäjätasojen hallintaa.
+Sain tehtyä kaikki tehtävät security ja documentation osioista ja tein ne molemmat tähän security kehityshaaraan.
 
-Virheet käsitellään oikeaoppisesti validationErrors middlewarella, jotta virheellinen data ei päädy tietokantaa ja siitä lähtee asianmukainen virheviesti. Olemattomat reitit määritelty kaikkien oikeiden API-reittien jälkeen ja niistä lähetetään 404 status. Multer ottaa nyt vastaan vain alle 10mb kokoisia tiedostoja ja estää suurempien latauksen virheviestillä höystettynä.
+Tein salasanojen hashauksen bcryptjs paketilla.
+![password hashed](images/salasana_hashed.png)
 
-# Kuvia APIn toiminnasta
+Otin myös käyttöön CORSin, joka mahdollistaa Cross-origin resource sharing eli eri palvelimien välisen viestinnän ja tiedon jakamisen. Tämä on otettu käyttöön myös projektissa, front-end Vite konfauksen takia.
 
-Seuraavat kuvat ovat virheellisistä syötteistä
+Latasin ja otin käyttöön HELMETin, joka mm. piilottaa Express headerin vastauksista, jotta mahdollinen hyökkääjä ei tiedä jyväksikäyttää express haavoittuvuuksia.
+![Helmet](images/helmet.png)
 
-![alt text](images/badUserCreate.png)
-![alt text](images/invalidFormat.png)
-![alt text](<images/Näyttökuva 2026-11-23 kello 6.52.51 ip..png>)
-![alt text](<images/Näyttökuva 2026-11-23 kello 6.53.02 ip..png>)
-![alt text](<images/Näyttökuva 2026-11-23 kello 6.59.15 ip..png>)
+Otin käyttöön myös express-rate-limitin, jonka asensin auth-login reitille midllewareksi, rajoittamaan samasta ip-osoitteesta tulevien pyyntöjen määrän kymmeneen per 15 min aikaikkuna.
+
+## Documentation
+
+Otin käyttöön swaagger dokumentaation, koska olin tutustunut siihen ja ottanut sen käyttöön projektissa jo ennen tätä tehtävää. Dokumentaation voi käydä katsomassa /api-docs endpointissa.
+![Swagger dokumentaatio](images/Swagger_dokumentointi.png)

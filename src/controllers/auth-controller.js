@@ -1,13 +1,14 @@
 import jwt from 'jsonwebtoken';
 import {findUserByUsername} from '../models/users-model.js';
 import 'dotenv/config';
+import bcrypt from 'bcryptjs';
 
 // User authentication controller functions
 const postLogin = async (req, res, next) => {
   console.log('postLogin', req.body);
   const user = await findUserByUsername(req.body.username);
   //console.log('user found?', user);
-  if (user && user.password === req.body.password) {
+  if (user && (await bcrypt.compare(req.body.password, user.password))) {
     delete user.password;
     const token = jwt.sign(user, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,

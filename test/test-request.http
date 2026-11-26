@@ -88,7 +88,17 @@ content-type: application/json
 DELETE {{apiUrl}}/media/13
 Authorization: Bearer {{login.response.body.token}}
 
-## /users requests
+## /USER REQUESTS
+
+### Add new user 
+POST {{apiUrl}}/users
+content-type: application/json 
+
+{
+  "username": "PattiSmith",
+  "password": "salasana",
+  "email": "pattismith@example.com"
+}
 
 ### Bad user creation (missing fields) 
 POST {{apiUrl}}/users
